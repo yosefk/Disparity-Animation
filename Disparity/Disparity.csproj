@@ -88,6 +88,9 @@
     <EmbeddedResource Include="DisparityForm.resx">
       <DependentUpon>DisparityForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MarkingForm.resx">
+      <DependentUpon>MarkingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

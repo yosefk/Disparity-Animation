@@ -15,5 +15,10 @@ namespace Disparity
         {
             InitializeComponent();
         }
+
+        private void pictureBox_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

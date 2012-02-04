@@ -2,7 +2,7 @@
 
 namespace Disparity
 {
-    class IntLine
+    struct IntLine
     {
         public IntPoint p;
         public IntPoint q;

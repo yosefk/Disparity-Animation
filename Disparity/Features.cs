@@ -7,20 +7,30 @@ using AForge;
 
 namespace Disparity
 {
+    struct IntLineFeature
+    {
+        public int id;
+        public IntLine line;
+    };
+
     class Features
     {
         string imagefile; //the file name of the marked image 
-        public IntLine[] intlines;
+        public IntLineFeature[] intlines;
+        int nextid;
 
         public override string ToString()
         {
-            int[][][] lines = new int[intlines.Length][][];
+            dynamic[] lines = new dynamic[intlines.Length];
             int i = 0;
-            foreach(IntLine line in intlines)
+            foreach (var lf in intlines)
             {
-                lines[i] = new int[][]{
-                    new int[]{intlines[i].p.X, intlines[i].p.Y},
-                    new int[]{intlines[i].q.X, intlines[i].q.Y}
+                lines[i] = new {
+                    id = lf.id, line = new int[]
+                    {
+                        lf.line.p.X, lf.line.p.Y,
+                        lf.line.q.X, lf.line.q.Y
+                    }
                 };
                 i++;
             }
@@ -37,20 +47,24 @@ namespace Disparity
             dynamic contents = reader.Read(json);
             Features f = new Features();
             f.imagefile = contents.imagefile;
-            try
+            //try
             {
-                f.intlines = new IntLine[contents.intlines.Length];
+                f.intlines = new IntLineFeature[contents.intlines.Length];
                 int i = 0;
-                foreach(dynamic line in contents.intlines)
+                foreach (dynamic l in contents.intlines)
                 {
-                    IntLine l = new IntLine();
-                    l.p = new IntPoint(line[0][0], line[0][1]);
-                    l.q = new IntPoint(line[1][0], line[1][1]);
-                    f.intlines[i] = l;
+                    IntLineFeature lf = new IntLineFeature();
+                    lf.id = l.id;
+                    int[] line = l.line;
+                    lf.line.p.X = l.line[0];
+                    lf.line.p.Y = line[1];
+                    lf.line.q.X = line[2];
+                    lf.line.q.Y = line[3];
+                    f.intlines[i] = lf;
                     i++;
                 }
             }
-            catch { } //FIXME: catch the right thing
+            //catch { } //FIXME: catch the right thing
             return f;
         }
 
@@ -58,21 +72,22 @@ namespace Disparity
         {
             Features f = new Features();
             f.imagefile = "somefile.png";
-            f.intlines = new IntLine[3];
+            f.intlines = new IntLineFeature[3];
             for (int i = 0; i < 3; ++i)
             {
-                var l = new IntLine();
-                l.p.X = i;
-                l.p.Y = i * 2;
-                l.q.X = i + 10;
-                l.q.Y = i * 2 + 10;
+                var l = new IntLineFeature();
+                l.id = i;
+                l.line.p.X = i;
+                l.line.p.Y = i * 2;
+                l.line.q.X = i + 10;
+                l.line.q.Y = i * 2 + 10;
                 f.intlines[i] = l;
             }
             string json = f.ToString();
             Console.WriteLine(json);
 
             Features g = Features.FromString(json);
-            Console.WriteLine(string.Format("file: {0} line[1].p.X: {1} line[2].q.Y: {2}", g.imagefile, g.intlines[1].p.X, g.intlines[2].q.Y));
+            Console.WriteLine(string.Format("file: {0} line[1].p.X: {1} line[2].q.Y: {2}", g.imagefile, g.intlines[1].line.p.X, g.intlines[2].line.q.Y));
 
             bool same = json == g.ToString();
             Console.WriteLine(string.Format("same json: {0}", same));
