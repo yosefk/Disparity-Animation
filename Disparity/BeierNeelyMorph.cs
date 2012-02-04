@@ -2,22 +2,25 @@
 using AForge.Imaging;
 using System;
 
-class BeierNeelyMorph
+namespace Disparity
 {
-    public static UnmanagedImage morph1(UnmanagedImage srcimg, IntLine[] srclines, IntLine[] dstlines)
+    class BeierNeelyMorph
     {
-        if (srclines.Length != dstlines.Length)
+        public static UnmanagedImage morph1(UnmanagedImage srcimg, IntLine[] srclines, IntLine[] dstlines)
         {
-            throw new ArgumentException(string.Format("srclines length ({0}) differs from dstlines length ({1})", srclines.Length, dstlines.Length));
+            if (srclines.Length != dstlines.Length)
+            {
+                throw new ArgumentException(string.Format("srclines length ({0}) differs from dstlines length ({1})", srclines.Length, dstlines.Length));
+            }
+            return null;
         }
-        return null;
-    }
 
-    public static UnmanagedImage test_morph1()
-    {
-        UnmanagedImage srcimg = null;
-        IntLine[] srclines = new IntLine[10];
-        IntLine[] dstlines = new IntLine[9];
-        return morph1(srcimg, srclines, dstlines);
+        public static UnmanagedImage test_morph1()
+        {
+            UnmanagedImage srcimg = null;
+            IntLine[] srclines = new IntLine[10];
+            IntLine[] dstlines = new IntLine[9];
+            return morph1(srcimg, srclines, dstlines);
+        }
     }
 }

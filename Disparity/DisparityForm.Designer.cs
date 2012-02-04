@@ -34,6 +34,8 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox = new AForge.Controls.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.featuresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.markImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
@@ -41,7 +43,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.featuresToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(641, 24);
@@ -78,7 +81,7 @@
             this.pictureBox.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox.Image = null;
-            this.pictureBox.Location = new System.Drawing.Point(12, 37);
+            this.pictureBox.Location = new System.Drawing.Point(12, 43);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(338, 240);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -88,6 +91,21 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // featuresToolStripMenuItem
+            // 
+            this.featuresToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.markImageToolStripMenuItem});
+            this.featuresToolStripMenuItem.Name = "featuresToolStripMenuItem";
+            this.featuresToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.featuresToolStripMenuItem.Text = "Features";
+            // 
+            // markImageToolStripMenuItem
+            // 
+            this.markImageToolStripMenuItem.Name = "markImageToolStripMenuItem";
+            this.markImageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.markImageToolStripMenuItem.Text = "Mark image";
+            this.markImageToolStripMenuItem.Click += new System.EventHandler(this.markImageToolStripMenuItem_Click);
             // 
             // DisparityForm
             // 
@@ -117,6 +135,8 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private AForge.Controls.PictureBox pictureBox;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem featuresToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem markImageToolStripMenuItem;
     }
 }
 

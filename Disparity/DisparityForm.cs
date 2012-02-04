@@ -46,5 +46,10 @@ namespace Disparity
         {
             pictureBox.Size = new Size(pictureBox.Image.Width, pictureBox.Image.Height);
         }
+
+        private void markImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

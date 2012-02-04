@@ -1,7 +1,10 @@
 ﻿using AForge;
 
-class IntLine
+namespace Disparity
 {
-    IntPoint p;
-    IntPoint q;
+    class IntLine
+    {
+        public IntPoint p;
+        public IntPoint q;
+    }
 }

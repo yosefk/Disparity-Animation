@@ -13,9 +13,12 @@ namespace Disparity
         [STAThread]
         static void Main()
         {
+            //Features.test_json();
+
             try
             {
-                BeierNeelyMorph.test_morph1();
+                
+                //BeierNeelyMorph.test_morph1();
             }
             catch (Exception e)
             {
