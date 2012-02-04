@@ -13,7 +13,7 @@ namespace Disparity
         [STAThread]
         static void Main()
         {
-            //Features.test_json();
+            Features.test_json();
 
             try
             {

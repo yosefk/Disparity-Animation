@@ -2,26 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
+using System.Collections;
 using JsonFx.Json;
 using AForge;
 
 namespace Disparity
 {
-    struct IntLineFeature
+    public struct IntLineFeature
     {
         public int id;
         public IntLine line;
     };
 
-    class Features
+    public class Features
     {
-        string imagefile; //the file name of the marked image 
-        public IntLineFeature[] intlines;
+        public string imagefile; //the file name of the marked image 
+        public List<IntLineFeature> intlines;
         int nextid;
+
+        public Features()
+        {
+            intlines = new List<IntLineFeature>();
+        }
+
+        public int newId()
+        {
+            int id = nextid;
+            nextid++;
+            return id;
+        }
 
         public override string ToString()
         {
-            dynamic[] lines = new dynamic[intlines.Length];
+            dynamic[] lines = new dynamic[intlines.Count];
             int i = 0;
             foreach (var lf in intlines)
             {
@@ -49,8 +63,7 @@ namespace Disparity
             f.imagefile = contents.imagefile;
             //try
             {
-                f.intlines = new IntLineFeature[contents.intlines.Length];
-                int i = 0;
+                f.intlines = new List<IntLineFeature>();
                 foreach (dynamic l in contents.intlines)
                 {
                     IntLineFeature lf = new IntLineFeature();
@@ -60,8 +73,7 @@ namespace Disparity
                     lf.line.p.Y = line[1];
                     lf.line.q.X = line[2];
                     lf.line.q.Y = line[3];
-                    f.intlines[i] = lf;
-                    i++;
+                    f.intlines.Add(lf);
                 }
             }
             //catch { } //FIXME: catch the right thing
@@ -72,7 +84,7 @@ namespace Disparity
         {
             Features f = new Features();
             f.imagefile = "somefile.png";
-            f.intlines = new IntLineFeature[3];
+            f.intlines = new List<IntLineFeature>();
             for (int i = 0; i < 3; ++i)
             {
                 var l = new IntLineFeature();
@@ -81,7 +93,7 @@ namespace Disparity
                 l.line.p.Y = i * 2;
                 l.line.q.X = i + 10;
                 l.line.q.Y = i * 2 + 10;
-                f.intlines[i] = l;
+                f.intlines.Add(l);
             }
             string json = f.ToString();
             Console.WriteLine(json);
@@ -91,6 +103,20 @@ namespace Disparity
 
             bool same = json == g.ToString();
             Console.WriteLine(string.Format("same json: {0}", same));
+            System.IO.File.WriteAllText("test.features.json", json);
+
+        }
+
+        public void Draw(Graphics g, System.Drawing.Pen pen=null, int left=0, int top=0)
+        {
+            if(pen == null)
+            {
+                pen = System.Drawing.Pens.GreenYellow;
+            }
+            foreach (var lf in intlines)
+            {
+                g.DrawLine(pen, left + lf.line.p.X, top + lf.line.p.Y, left + lf.line.q.X, top + lf.line.q.Y);
+            }
         }
     }
 }

@@ -49,7 +49,9 @@ namespace Disparity
 
         private void markImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            MarkingForm mf = new MarkingForm();
+            mf.image = pictureBox.Image;
+            mf.Show();
         }
     }
 }
