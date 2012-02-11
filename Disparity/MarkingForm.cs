@@ -48,8 +48,9 @@ namespace Disparity
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {
+            Rectangle ROI = pictureBox.ROI;
             int zoom = pictureBox.zmLevel;
-            features.Draw(e.Graphics, null, -pictureBox.ROI.Left * zoom, -pictureBox.ROI.Top * zoom, zoom);
+            features.Draw(e.Graphics, System.Drawing.Pens.GreenYellow, -ROI.Left * zoom, -ROI.Top * zoom, zoom);
             if (inline)
             {
                 e.Graphics.DrawLine(System.Drawing.Pens.HotPink, newlinestart, newlineend);
@@ -70,11 +71,12 @@ namespace Disparity
                 {
                     var lf = new IntLineFeature();
                     int zoom = pictureBox.zmLevel;
+                    Rectangle ROI = pictureBox.ROI;
                     lf.id = features.newId();
-                    lf.line.p.X = (newlinestart.X + pictureBox.ROI.Left * zoom)/zoom;
-                    lf.line.p.Y = (newlinestart.Y + pictureBox.ROI.Top * zoom) / zoom;
-                    lf.line.q.X = (newlineend.X + pictureBox.ROI.Left * zoom) / zoom;
-                    lf.line.q.Y = (newlineend.Y + pictureBox.ROI.Top * zoom) / zoom;
+                    lf.line.p.X = (newlinestart.X + ROI.Left * zoom) / zoom;
+                    lf.line.p.Y = (newlinestart.Y + ROI.Top * zoom) / zoom;
+                    lf.line.q.X = (newlineend.X + ROI.Left * zoom) / zoom;
+                    lf.line.q.Y = (newlineend.Y + ROI.Top * zoom) / zoom;
                     features.intlines.Add(lf);
                     inline = false;
                 }
