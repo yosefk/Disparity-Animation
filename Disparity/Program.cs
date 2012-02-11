@@ -18,7 +18,15 @@ namespace Disparity
             try
             {
                 
-                //BeierNeelyMorph.test_morph1();
+                BeierNeelyMorph.test_morph1("E:\\sw\\Disparity\\test\\f.bmp",
+                    "E:\\sw\\Disparity\\test\\f-dst.bmp",
+                    "E:\\sw\\Disparity\\test\\f-src.json",
+                    "E:\\sw\\Disparity\\test\\f-dst.json");
+                BeierNeelyMorph.test_morph1("E:\\sw\\Disparity\\test\\donald.jpg",
+    "E:\\sw\\Disparity\\test\\donald-dst.bmp",
+    "E:\\sw\\Disparity\\test\\d-src.json",
+    "E:\\sw\\Disparity\\test\\d-dst.json");
+
             }
             catch (Exception e)
             {

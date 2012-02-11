@@ -33,6 +33,16 @@ namespace Disparity
             return id;
         }
 
+        public IntLine[] barelines()
+        {
+            IntLine[] bare = new IntLine[intlines.Count];
+            for (int i = 0; i < intlines.Count; ++i)
+            {
+                bare[i] = intlines[i].line;
+            }
+            return bare;
+        }
+
         public override string ToString()
         {
             dynamic[] lines = new dynamic[intlines.Count];
