@@ -31,8 +31,9 @@ namespace Disparity
                 {
                     ImageInfo imageInfo = null;
                     pictureBox.Image = ImageDecoder.DecodeFromFile(openFileDialog1.FileName, out imageInfo);
-                    pictureBox.SizeMode = PictureBoxSizeMode.Normal;
+                    pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
                     pictureBox.Size = new Size(imageInfo.Width, imageInfo.Height);
+                    ActiveControl = pictureBox;
                 }
                 catch(Exception ex)
                 {

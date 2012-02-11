@@ -107,7 +107,7 @@ namespace Disparity
 
         }
 
-        public void Draw(Graphics g, System.Drawing.Pen pen=null, int left=0, int top=0)
+        public void Draw(Graphics g, System.Drawing.Pen pen=null, int left=0, int top=0, int zoom=1)
         {
             if(pen == null)
             {
@@ -115,7 +115,7 @@ namespace Disparity
             }
             foreach (var lf in intlines)
             {
-                g.DrawLine(pen, left + lf.line.p.X, top + lf.line.p.Y, left + lf.line.q.X, top + lf.line.q.Y);
+                g.DrawLine(pen, left + lf.line.p.X * zoom, top + lf.line.p.Y * zoom, left + lf.line.q.X * zoom, top + lf.line.q.Y * zoom);
             }
         }
     }

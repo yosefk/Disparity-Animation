@@ -32,10 +32,10 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox = new AForge.Controls.PictureBox();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.featuresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox = new ZoomPictureBox();// new AForge.Controls.PictureBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
@@ -63,8 +63,9 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
@@ -72,6 +73,22 @@
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            // 
+            // featuresToolStripMenuItem
+            // 
+            this.featuresToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.markImageToolStripMenuItem});
+            this.featuresToolStripMenuItem.Name = "featuresToolStripMenuItem";
+            this.featuresToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.featuresToolStripMenuItem.Text = "Features";
+            // 
+            // markImageToolStripMenuItem
+            // 
+            this.markImageToolStripMenuItem.Name = "markImageToolStripMenuItem";
+            this.markImageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.markImageToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.markImageToolStripMenuItem.Text = "&Mark image";
+            this.markImageToolStripMenuItem.Click += new System.EventHandler(this.markImageToolStripMenuItem_Click);
             // 
             // pictureBox
             // 
@@ -91,21 +108,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // featuresToolStripMenuItem
-            // 
-            this.featuresToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.markImageToolStripMenuItem});
-            this.featuresToolStripMenuItem.Name = "featuresToolStripMenuItem";
-            this.featuresToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
-            this.featuresToolStripMenuItem.Text = "Features";
-            // 
-            // markImageToolStripMenuItem
-            // 
-            this.markImageToolStripMenuItem.Name = "markImageToolStripMenuItem";
-            this.markImageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.markImageToolStripMenuItem.Text = "Mark image";
-            this.markImageToolStripMenuItem.Click += new System.EventHandler(this.markImageToolStripMenuItem_Click);
             // 
             // DisparityForm
             // 
@@ -133,7 +135,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private AForge.Controls.PictureBox pictureBox;
+        private ZoomPictureBox pictureBox;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem featuresToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem markImageToolStripMenuItem;

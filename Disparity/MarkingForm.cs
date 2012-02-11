@@ -19,17 +19,22 @@ namespace Disparity
         System.Drawing.Point newlinestart;
         System.Drawing.Point newlineend;
         bool inline;
+        List<IntLineFeature> redostack; //not cleared by addition of new features on purpose
+        //(feature addition is context-free so there's no real need to invalidate operations
+        //once the editing "went down an alternate path" the way it happens with text editing)
 
         public MarkingForm()
         {
             InitializeComponent();
+            redostack = new List<IntLineFeature>();
         }
 
         private void MarkingForm_Load(object sender, EventArgs e)
         {
             pictureBox.Image = image;
             pictureBox.Size = new Size(pictureBox.Image.Width, pictureBox.Image.Height);
-            pictureBox.SizeMode = PictureBoxSizeMode.Normal;
+            pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            ActiveControl = pictureBox;
             if (features == null)
             {
                 features = new Features();
@@ -43,7 +48,8 @@ namespace Disparity
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {
-            features.Draw(e.Graphics);
+            int zoom = pictureBox.zmLevel;
+            features.Draw(e.Graphics, null, -pictureBox.ROI.Left * zoom, -pictureBox.ROI.Top * zoom, zoom);
             if (inline)
             {
                 e.Graphics.DrawLine(System.Drawing.Pens.HotPink, newlinestart, newlineend);
@@ -63,11 +69,12 @@ namespace Disparity
                 else
                 {
                     var lf = new IntLineFeature();
+                    int zoom = pictureBox.zmLevel;
                     lf.id = features.newId();
-                    lf.line.p.X = newlinestart.X;
-                    lf.line.p.Y = newlinestart.Y;
-                    lf.line.q.X = newlineend.X;
-                    lf.line.q.Y = newlineend.Y;
+                    lf.line.p.X = (newlinestart.X + pictureBox.ROI.Left * zoom)/zoom;
+                    lf.line.p.Y = (newlinestart.Y + pictureBox.ROI.Top * zoom) / zoom;
+                    lf.line.q.X = (newlineend.X + pictureBox.ROI.Left * zoom) / zoom;
+                    lf.line.q.Y = (newlineend.Y + pictureBox.ROI.Top * zoom) / zoom;
                     features.intlines.Add(lf);
                     inline = false;
                 }
@@ -105,6 +112,32 @@ namespace Disparity
             {
                 String json = System.IO.File.ReadAllText(openFileDialog1.FileName);
                 features = Features.FromString(json);
+                pictureBox.Refresh();
+            }
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (features.intlines.Count() > 0)
+            {
+                int last = features.intlines.Count() - 1;
+                IntLineFeature undone = features.intlines[last];
+                features.intlines.RemoveAt(last);
+
+                redostack.Add(undone);
+                pictureBox.Refresh();
+            }
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (redostack.Count() > 0)
+            {
+                int last = redostack.Count() - 1;
+                IntLineFeature redone = redostack[last];
+                redostack.RemoveAt(last);
+
+                features.intlines.Add(redone);
                 pictureBox.Refresh();
             }
         }
