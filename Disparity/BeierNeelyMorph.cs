@@ -30,6 +30,32 @@ namespace Disparity
         {
             return new IntPoint(-p.Y, p.X);
         }
+
+        static Color interp(Bitmap src, float X, float Y)
+        {
+            int x = (int)X;
+            int y = (int)Y;
+
+            float fx = X - x;
+            float fy = Y - y;
+            float fx1 = 1.0f - fx;
+            float fy1 = 1.0f - fy;
+
+            int wlt = (int)(fx1 * fy1 * 256.0f);
+            int wrt = (int)(fx  * fy1 * 256.0f);
+            int wlb = (int)(fx1 * fy  * 256.0f);
+            int wrb = (int)(fx  * fy  * 256.0f);
+
+            Color lt = src.GetPixel(x, y);
+            Color rt = src.GetPixel(x + 1, y);
+            Color lb = src.GetPixel(x, y + 1);
+            Color rb = src.GetPixel(x + 1, y + 1);
+
+            int R = lt.R * wlt + rt.R * wrt + lb.R * wlb + rb.R * wrb >> 8;
+            int G = lt.G * wlt + rt.G * wrt + lb.G * wlb + rb.G * wrb >> 8;
+            int B = lt.B * wlt + rt.B * wrt + lb.B * wlb + rb.B * wrb >> 8;
+            return Color.FromArgb(R, G, B);
+        }
         
         public static Bitmap morph1(Bitmap srcimg, IntLine[] srclines, IntLine[] dstlines, WeightParams weightparams)
         {
@@ -101,9 +127,9 @@ namespace Disparity
                     //DSUM, weightsum -> Xs
                     float Xs = x + DSUMX/weightsum;
                     float Ys = y + DSUMY/weightsum;
-                    //FIXME: interpolate
-                    if(Xs >=0 && Xs < w && Ys >= 0 && Ys < h) {
-                        dstimg.SetPixel(x, y, srcimg.GetPixel((int)Xs, (int)Ys));
+                    
+                    if(Xs >=0 && Xs+1 < w && Ys >= 0 && Ys+1 < h) {
+                        dstimg.SetPixel(x, y, interp(srcimg, Xs, Ys));
                     }
                 }
             }
