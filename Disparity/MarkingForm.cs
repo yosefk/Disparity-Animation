@@ -83,5 +83,30 @@ namespace Disparity
                 pictureBox.Refresh();
             }
         }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            String json = features.ToString();
+            System.IO.File.WriteAllText(openFileDialog1.FileName, json);
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                String json = features.ToString();
+                System.IO.File.WriteAllText(saveFileDialog1.FileName, json);
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                String json = System.IO.File.ReadAllText(openFileDialog1.FileName);
+                features = Features.FromString(json);
+                pictureBox.Refresh();
+            }
+        }
     }
 }
