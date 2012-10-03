@@ -54,5 +54,33 @@ namespace Disparity
             mf.image = pictureBox.Image;
             mf.Show();
         }
+
+        private void matchfeaturesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog2.ShowDialog() == DialogResult.OK)
+            {
+                MatchingForm mf2 = new MatchingForm();
+                try
+                {
+                    ImageInfo imageInfo = null;
+                    mf2.image = ImageDecoder.DecodeFromFile(openFileDialog2.FileName, out imageInfo);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed loading the image", ex.Message,
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                MatchingForm mf = new MatchingForm();
+                mf.image = pictureBox.Image;
+
+                mf.sister = mf2;
+                mf2.sister = mf;
+
+                mf.Show();
+                mf2.Show();
+            }
+
+        }
     }
 }

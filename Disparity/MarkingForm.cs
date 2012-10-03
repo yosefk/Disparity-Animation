@@ -46,11 +46,16 @@ namespace Disparity
             pictureBox.Size = new Size(pictureBox.Image.Width, pictureBox.Image.Height);
         }
 
-        private void pictureBox_Paint(object sender, PaintEventArgs e)
+        protected virtual void DrawFeatures(PaintEventArgs e)
         {
             Rectangle ROI = pictureBox.ROI;
             int zoom = pictureBox.zmLevel;
             features.Draw(e.Graphics, System.Drawing.Pens.GreenYellow, -ROI.Left * zoom, -ROI.Top * zoom, zoom);
+        }
+
+        private void pictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            DrawFeatures(e);
             if (inline)
             {
                 e.Graphics.DrawLine(System.Drawing.Pens.HotPink, newlinestart, newlineend);

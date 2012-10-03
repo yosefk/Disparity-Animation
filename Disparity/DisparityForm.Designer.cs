@@ -34,8 +34,10 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.featuresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox = new ZoomPictureBox();// new AForge.Controls.PictureBox();
+            this.matchfeaturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox = new ZoomPictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
@@ -64,20 +66,21 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // featuresToolStripMenuItem
             // 
             this.featuresToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.markImageToolStripMenuItem});
+            this.markImageToolStripMenuItem,
+            this.matchfeaturesToolStripMenuItem});
             this.featuresToolStripMenuItem.Name = "featuresToolStripMenuItem";
             this.featuresToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
             this.featuresToolStripMenuItem.Text = "Features";
@@ -86,9 +89,17 @@
             // 
             this.markImageToolStripMenuItem.Name = "markImageToolStripMenuItem";
             this.markImageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.markImageToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.markImageToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.markImageToolStripMenuItem.Text = "&Mark image";
             this.markImageToolStripMenuItem.Click += new System.EventHandler(this.markImageToolStripMenuItem_Click);
+            // 
+            // matchfeaturesToolStripMenuItem
+            // 
+            this.matchfeaturesToolStripMenuItem.Name = "matchfeaturesToolStripMenuItem";
+            this.matchfeaturesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.matchfeaturesToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.matchfeaturesToolStripMenuItem.Text = "Match &features";
+            this.matchfeaturesToolStripMenuItem.Click += new System.EventHandler(this.matchfeaturesToolStripMenuItem_Click);
             // 
             // pictureBox
             // 
@@ -108,6 +119,10 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // openFileDialog2
+            // 
+            this.openFileDialog2.FileName = "openFileDialog2";
             // 
             // DisparityForm
             // 
@@ -139,6 +154,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem featuresToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem markImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem matchfeaturesToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog2;
     }
 }
 

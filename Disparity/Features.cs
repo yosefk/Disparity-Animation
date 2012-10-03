@@ -19,7 +19,6 @@ namespace Disparity
     {
         public string imagefile; //the file name of the marked image 
         public List<IntLineFeature> intlines;
-        int nextid;
 
         public Features()
         {
@@ -28,9 +27,12 @@ namespace Disparity
 
         public int newId()
         {
-            int id = nextid;
-            nextid++;
-            return id;
+            int id = 0;
+            foreach (var lf in intlines)
+            {
+                id = Math.Max(id, lf.id);
+            }
+            return id + 1;
         }
 
         public IntLine[] barelines()
@@ -41,6 +43,20 @@ namespace Disparity
                 bare[i] = intlines[i].line;
             }
             return bare;
+        }
+
+        public bool find(int id, out IntLineFeature found)
+        {
+            foreach (var lf in intlines)
+            {
+                if (lf.id == id)
+                {
+                    found = lf;
+                    return true;
+                }
+            }
+            found = new IntLineFeature();
+            return false;
         }
 
         public override string ToString()
@@ -117,11 +133,17 @@ namespace Disparity
 
         }
 
+        public static void DrawLine(IntLine line, Graphics g, System.Drawing.Pen pen, int left = 0, int top = 0, int zoom = 1)
+        {
+            g.DrawLine(pen, left + line.p.X * zoom, top + line.p.Y * zoom, left + line.q.X * zoom, top + line.q.Y * zoom);
+        }
+
         public void Draw(Graphics g, System.Drawing.Pen pen, int left=0, int top=0, int zoom=1)
         {
             foreach (var lf in intlines)
             {
-                g.DrawLine(pen, left + lf.line.p.X * zoom, top + lf.line.p.Y * zoom, left + lf.line.q.X * zoom, top + lf.line.q.Y * zoom);
+                DrawLine(lf.line, g, pen, left, top, zoom);
+                //g.DrawLine(pen, left + lf.line.p.X * zoom, top + lf.line.p.Y * zoom, left + lf.line.q.X * zoom, top + lf.line.q.Y * zoom);
             }
         }
     }

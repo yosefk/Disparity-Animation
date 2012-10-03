@@ -144,11 +144,37 @@ namespace Disparity
 
             WeightParams weightparams = new WeightParams();
             weightparams.a = 0.1f;
-            weightparams.b = 0.5f;
+            weightparams.b = 1;
             weightparams.p = 0;
             Bitmap dstbitmap = morph1(srcbitmap, srclines, dstlines, weightparams);
 
             dstbitmap.Save(dstimg);
+        }
+
+        public static void test_morph1_movie(String srcimg, String dstimgsfmt, String srcfeat, String dstfeat, int frames)
+        {
+            Bitmap srcbitmap = new Bitmap(Bitmap.FromFile(srcimg));
+            IntLine[] srclines = Features.FromString(System.IO.File.ReadAllText(srcfeat)).barelines();
+            IntLine[] dstlines = Features.FromString(System.IO.File.ReadAllText(dstfeat)).barelines();
+
+            for (int i = 0; i < frames; ++i)
+            {
+                float w1 = 1 - (float)i/(float)(frames-1); //from 0 to 1, inclusive
+                IntLine[] dstilines = new IntLine[dstlines.GetLength(0)];
+                for (int j = 0; j < dstilines.GetLength(0); ++j)
+                {
+                    dstilines[j] = LinesInterp.interp_endpoints(srclines[j], dstlines[j], w1);
+                }
+                
+                WeightParams weightparams = new WeightParams();
+                weightparams.a = 0.1f;
+                weightparams.b = 1;
+                weightparams.p = 0;
+                Bitmap dstbitmap = morph1(srcbitmap, srclines, dstilines, weightparams);
+
+                String dstimg = String.Format(dstimgsfmt, i);
+                dstbitmap.Save(dstimg);
+            }
         }
     }
 }
