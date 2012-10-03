@@ -45,6 +45,16 @@ namespace Disparity
             return bare;
         }
 
+        public Line[] floatlines()
+        {
+            Line[] bare = new Line[intlines.Count];
+            for (int i = 0; i < intlines.Count; ++i)
+            {
+                bare[i] = intlines[i].line.floatline();
+            }
+            return bare;
+        }
+
         public bool find(int id, out IntLineFeature found)
         {
             foreach (var lf in intlines)

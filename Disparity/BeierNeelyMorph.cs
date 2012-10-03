@@ -2,6 +2,7 @@
 using AForge.Imaging;
 using System;
 using System.Drawing;
+using Point = AForge.Point;
 
 namespace Disparity
 {
@@ -21,14 +22,14 @@ namespace Disparity
             }
         }
 
-        static int dotp(IntPoint p1, IntPoint p2)
+        static float dotp(Point p1, Point p2)
         {
             return p1.X * p2.X + p1.Y * p2.Y;
         }
 
-        static IntPoint perp(IntPoint p)
+        static Point perp(Point p)
         {
-            return new IntPoint(-p.Y, p.X);
+            return new Point(-p.Y, p.X);
         }
 
         static Color interp(Bitmap src, float X, float Y)
@@ -57,7 +58,7 @@ namespace Disparity
             return Color.FromArgb(R, G, B);
         }
         
-        public static Bitmap morph1(Bitmap srcimg, IntLine[] srclines, IntLine[] dstlines, WeightParams weightparams)
+        public static Bitmap morph1(Bitmap srcimg, Line[] srclines, Line[] dstlines, WeightParams weightparams)
         {
             if (srclines.Length != dstlines.Length)
             {
@@ -72,27 +73,27 @@ namespace Disparity
             {
                 for (int x = 0; x < w; ++x)
                 {
-                    IntPoint X = new IntPoint(x,y); //"X" is the name from the paper
+                    Point X = new Point(x,y); //"X" is the name from the paper
                     float DSUMX = 0;
                     float DSUMY = 0;
                     float weightsum = 0;
                     for (int i = 0; i < nl; ++i)
                     {
-                        IntPoint P = dstlines[i].p;
-                        IntPoint Q = dstlines[i].q;
-                        IntPoint Ps = srclines[i].p;
-                        IntPoint Qs = srclines[i].q;
+                        Point P = dstlines[i].p;
+                        Point Q = dstlines[i].q;
+                        Point Ps = srclines[i].p;
+                        Point Qs = srclines[i].q;
 
                         //Q,P, X -> v,u
-                        IntPoint QP = Q - P;
-                        IntPoint XP = X - P;
+                        Point QP = Q - P;
+                        Point XP = X - P;
                         float QP_norm = QP.EuclideanNorm();
                         float u = dotp(XP, QP) / (QP_norm*QP_norm);
                         float v = dotp(XP, perp(QP)) / QP_norm;
 
                         //v,u, Ps,Qs -> Xs
-                        IntPoint QsPs = Qs - Ps;
-                        IntPoint QsPs_perp = perp(QsPs);
+                        Point QsPs = Qs - Ps;
+                        Point QsPs_perp = perp(QsPs);
                         float QsPs_norm = QsPs.EuclideanNorm();
                         float Xsi = Ps.X + u * QsPs.X + v * QsPs_perp.X / QsPs_norm;
                         float Ysi = Ps.Y + u * QsPs.Y + v * QsPs_perp.Y / QsPs_norm;
@@ -139,8 +140,8 @@ namespace Disparity
         public static void test_morph1(String srcimg, String dstimg, String srcfeat, String dstfeat)
         {
             Bitmap srcbitmap = new Bitmap(Bitmap.FromFile(srcimg));
-            IntLine[] srclines = Features.FromString(System.IO.File.ReadAllText(srcfeat)).barelines();
-            IntLine[] dstlines = Features.FromString(System.IO.File.ReadAllText(dstfeat)).barelines();
+            Line[] srclines = Features.FromString(System.IO.File.ReadAllText(srcfeat)).floatlines();
+            Line[] dstlines = Features.FromString(System.IO.File.ReadAllText(dstfeat)).floatlines();
 
             WeightParams weightparams = new WeightParams();
             weightparams.a = 0.1f;
@@ -154,13 +155,13 @@ namespace Disparity
         public static void test_morph1_movie(String srcimg, String dstimgsfmt, String srcfeat, String dstfeat, int frames)
         {
             Bitmap srcbitmap = new Bitmap(Bitmap.FromFile(srcimg));
-            IntLine[] srclines = Features.FromString(System.IO.File.ReadAllText(srcfeat)).barelines();
-            IntLine[] dstlines = Features.FromString(System.IO.File.ReadAllText(dstfeat)).barelines();
+            Line[] srclines = Features.FromString(System.IO.File.ReadAllText(srcfeat)).floatlines();
+            Line[] dstlines = Features.FromString(System.IO.File.ReadAllText(dstfeat)).floatlines();
 
             for (int i = 0; i < frames; ++i)
             {
                 float w1 = 1 - (float)i/(float)(frames-1); //from 0 to 1, inclusive
-                IntLine[] dstilines = new IntLine[dstlines.GetLength(0)];
+                Line[] dstilines = new Line[dstlines.GetLength(0)];
                 for (int j = 0; j < dstilines.GetLength(0); ++j)
                 {
                     dstilines[j] = LinesInterp.interp_endpoints(srclines[j], dstlines[j], w1);
